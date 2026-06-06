@@ -1,0 +1,67 @@
+/* ================================================
+   ECOSCAN — Design Tokens
+   Environmental Quality Assessment
+   ================================================ */
+
+:root {
+  /* Surface Colors */
+  --cream:        #faf8f5;
+  --cream-deep:   #f5f0e8;
+  --cream-stone:  #e8e0d8;
+  --white:        #ffffff;
+
+  /* Accent Colors — Dusty Rose */
+  --rose:         #d4a5a5;
+  --rose-light:   #e8c4c4;
+  --rose-pale:    #f5e8e8;
+  --rose-deep:    #b88888;
+
+  /* Text Colors */
+  --ink:          #2a2525;
+  --ink-light:    #5a5050;
+  --muted:        #9a8a8a;
+
+  /* Semantic Colors — Muted Pastel */
+  --positive:     #7aaa8a;
+  --positive-deep: #5a8a6a;
+  --warning:      #c9a86c;
+  --warning-deep: #a88a4c;
+  --negative:     #c47a7a;
+  --negative-deep: #a45a5a;
+
+  /* Surfaces */
+  --bg:           var(--cream);
+  --bg-alt:       var(--cream-deep);
+  --surface:      var(--white);
+  --border:       rgba(42, 37, 37, 0.08);
+  --border-mid:   rgba(42, 37, 37, 0.14);
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-body:    'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+
+  /* Spacing */
+  --section-gap:  clamp(80px, 12vw, 140px);
+  --container:    1200px;
+  --header-h:     64px;
+
+  /* Elevation — Soft Shadows */
+  --shadow-xs: 0 1px 3px rgba(42, 37, 37, 0.04);
+  --shadow-sm: 0 2px 8px rgba(42, 37, 37, 0.06);
+  --shadow-md: 0 6px 24px rgba(42, 37, 37, 0.08);
+  --shadow-lg: 0 12px 48px rgba(42, 37, 37, 0.12);
+
+  /* Border Radius */
+  --r-xs:   4px;
+  --r-sm:   8px;
+  --r-md:   12px;
+  --r-lg:   16px;
+  --r-xl:   24px;
+  --r-pill: 9999px;
+
+  /* Motion */
+  --ease:      cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out:  cubic-bezier(0.0, 0.0, 0.2, 1);
+  --t:         0.25s var(--ease);
+}

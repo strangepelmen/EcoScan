@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoScan — Environmental Quality Assessment</title>
+<meta name="description" content="EcoScan - Client-side environmental quality assessment using leaf fluctuating asymmetry and chlorophyll index analysis.">
+<meta name="author" content="strangepelmen">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="EcoScan — Environmental Quality Assessment">
+<meta property="og:description" content="Analyze leaf symmetry to assess environmental quality. Built with vanilla JavaScript and Leaflet.js.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+<link rel="stylesheet" href="public/css/variables.css">
+<link rel="stylesheet" href="public/css/base.css">
+<link rel="stylesheet" href="public/css/layout.css">
+<link rel="stylesheet" href="public/css/components.css">
+<link rel="stylesheet" href="public/css/sections.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <span class="logo-leaf">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 4C10 4 4 10 4 16C4 22 10 28 16 28C16 28 14 24 16 20C18 24 16 28 16 28C22 28 28 22 28 16C28 10 22 4 16 4Z" fill="#d4a5a5" stroke="#b88888" stroke-width="1.5"/>
+          <path d="M16 28V16" stroke="#b88888" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M16 16C14 14 12 12 10 10M16 16C18 14 20 12 22 10" stroke="#b88888" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M16 20C14 19 12 18 10 17M16 20C18 19 20 18 22 17" stroke="#b88888" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="logo-text">EcoScan</span>
+    </a>
+    <nav class="main-nav" id="main-nav">
+      <a href="#about-project" class="nav-link">About</a>
+      <a href="#instructions" class="nav-link">Instructions</a>
+      <a href="#analysis" class="nav-link">Analysis</a>
+      <a href="#map" class="nav-link">Map</a>
+      <a href="#comparison" class="nav-link">Comparison</a>
+      <a href="#recommendations" class="nav-link">Recommendations</a>
+      <a href="#methodology" class="nav-link">Methodology</a>
+    </nav>
+    <div class="header-right-mobile">
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-container">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Environmental Quality<br><em>Assessment Tool</em>
+      </h1>
+      <p class="hero-sub">
+        Analyze leaf symmetry to estimate vegetation stress<br>
+        using fluctuating asymmetry and chlorophyll index methods
+      </p>
+      <div class="hero-actions">
+        <a href="#analysis" class="btn btn--primary btn--hero">
+          Start Analysis
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#about-project" class="btn btn--ghost btn--hero">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT PROJECT -->
+<section id="about-project" class="section">
+  <div class="container">
+    <div class="section-label">About</div>
+    <h2 class="section-title">Built with Web Technologies</h2>
+    <p class="section-desc">
+      EcoScan is a client-side environmental analysis tool that estimates vegetation stress
+      using leaf fluctuating asymmetry (FA) and chlorophyll index from photographs.
+      No server required — all processing happens in your browser.
+    </p>
+
+    <div class="tech-grid">
+      <div class="tech-card reveal">
+        <div class="tech-card__icon">🎨</div>
+        <h3>Frontend</h3>
+        <ul>
+          <li>Vanilla HTML5, CSS3, ES6+ JavaScript</li>
+          <li>CSS Custom Properties (design tokens)</li>
+          <li>Playfair Display + DM Sans typography</li>
+          <li>Reveal-on-scroll animations</li>
+        </ul>
+      </div>
+      <div class="tech-card reveal delay-1">
+        <div class="tech-card__icon">⚡</div>
+        <h3>Analysis Engine</h3>
+        <ul>
+          <li>Canvas API for image processing</li>
+          <li>Leaf segmentation algorithm</li>
+          <li>White-background color calibration</li>
+          <li>Seeded PRNG for deterministic results</li>
+        </ul>
+      </div>
+      <div class="tech-card reveal delay-2">
+        <div class="tech-card__icon">🗺️</div>
+        <h3>Mapping</h3>
+        <ul>
+          <li>Leaflet.js interactive maps</li>
+          <li>Custom SVG markers (teardrop + hexagon)</li>
+          <li>Layer switching (FA / Chlorophyll)</li>
+          <li>LocalStorage + embedded dataset</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="project-links">
+      <a href="https://github.com/strangepelmen" target="_blank" class="btn btn--primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub Profile
+      </a>
+      <a href="https://github.com/strangepelmen/EcoScan" target="_blank" class="btn btn--ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        View Source Code
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section section--alt">
+  <div class="container">
+    <div class="section-label">The Method</div>
+    <h2 class="section-title">Science Meets Technology</h2>
+    <div class="about-grid">
+      <div class="about-card reveal">
+        <div class="about-card__icon">🔬</div>
+        <h3>Fluctuating Asymmetry</h3>
+        <p>Fluctuating asymmetry refers to small random deviations from perfect symmetry in leaves. It indicates <strong>accumulated environmental stress</strong> over the growing season — higher asymmetry means poorer environmental conditions.</p>
+      </div>
+      <div class="about-card reveal delay-1">
+        <div class="about-card__icon">🌱</div>
+        <h3>Chlorophyll Index</h3>
+        <p>Calculated from color channels in leaf photographs. Shows <strong>current plant health</strong> — pale or yellowing leaves indicate lower chlorophyll levels and potential stress.</p>
+      </div>
+      <div class="about-card reveal delay-2">
+        <div class="about-card__icon">🌍</div>
+        <h3>Interactive Map</h3>
+        <p>Two independent map layers: FA layer (chronic pollution) and Chlorophyll layer (current status). Together they provide a <strong>complete ecological picture</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTRUCTIONS -->
+<section id="instructions" class="section">
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Participate in Four Steps</h2>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step__number">01</div>
+        <div class="step__icon">🌳</div>
+        <h3 class="step__title">Find a Plant</h3>
+        <p class="step__text">Suitable species include <strong>White Willow</strong>, <strong>Goat Willow</strong>, <strong>Balsam Poplar</strong>, <strong>Silver Birch</strong>, and other available species.</p>
+      </div>
+      <div class="step-arrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <div class="step reveal delay-1">
+        <div class="step__number">02</div>
+        <div class="step__icon">📸</div>
+        <h3 class="step__title">Photograph a Leaf</h3>
+        <p class="step__text">Use a <strong>white background</strong> with good lighting so the leaf is fully visible. The white background serves as a lighting reference for accurate analysis.</p>
+      </div>
+      <div class="step-arrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <div class="step reveal delay-2">
+        <div class="step__number">03</div>
+        <div class="step__icon">📊</div>
+        <h3 class="step__title">Get Results</h3>
+        <p class="step__text">The algorithm calculates FA index and chlorophyll index, producing an overall leaf health score for environmental assessment.</p>
+      </div>
+      <div class="step-arrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <div class="step reveal delay-3">
+        <div class="step__number">04</div>
+        <div class="step__icon">📍</div>
+        <h3 class="step__title">Add to Map</h3>
+        <p class="step__text">Share your results anonymously. Your pin with both indices will appear on the map for all users to see.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANALYSIS -->
+<section id="analysis" class="section section--alt">
+  <div class="container">
+    <div class="section-label">Analysis</div>
+    <h2 class="section-title">Leaf Analysis</h2>
+
+    <div class="plant-picker reveal">
+      <p class="plant-picker__label">
+        1. Select plant species
+        <span class="plant-picker__req">— required before uploading photo</span>
+      </p>
+      <div class="plant-select-wrapper">
+        <select id="plantSelect" class="plant-select">
+          <option value="" selected>Choose plant species</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="calibration-hint reveal">
+      <span class="calibration-hint__icon">💡</span>
+      <span>Photograph the leaf on a <strong>white background</strong> — the algorithm uses it as a lighting reference for accurate chlorophyll calculation.</span>
+    </div>
+
+    <div class="upload-zone reveal" id="uploadArea">
+      <div class="upload-zone__inner">
+        <div class="upload-zone__icon">📁</div>
+        <p class="upload-zone__title">Drag leaf photo here</p>
+        <p class="upload-zone__sub">or select a file (white background recommended)</p>
+        <button class="btn btn--primary" id="uploadBtn" disabled>Choose File</button>
+        <input type="file" id="fileInput" accept="image/*" style="display:none">
+      </div>
+    </div>
+
+    <div class="preview-box hidden" id="imagePreviewContainer">
+      <div class="preview-box__img-wrap">
+        <img id="imagePreview" class="preview-box__img" alt="Preview">
+        <canvas id="analysisCanvas" style="display:none"></canvas>
+      </div>
+      <div class="preview-box__actions">
+        <button class="btn btn--primary" id="analyzeBtn">🔬 Analyze</button>
+        <button class="btn btn--ghost" id="changeImgBtn">Change Photo</button>
+      </div>
+    </div>
+
+    <div class="analysis-progress hidden" id="analysisVisualization">
+      <div class="analysis-anim">
+        <div class="leaf-spinner">🌿</div>
+        <p class="analysis-anim__text" id="analysisAnimText">Analyzing leaf...</p>
+      </div>
+      <div class="progress-steps">
+        <div class="progress-step" id="step1"><span class="ps-dot"></span><span class="ps-label">Leaf segmentation</span></div>
+        <div class="progress-step" id="step2"><span class="ps-dot"></span><span class="ps-label">Symmetry axis detection</span></div>
+        <div class="progress-step" id="step3"><span class="ps-dot"></span><span class="ps-label">FA calculation</span></div>
+        <div class="progress-step" id="step4"><span class="ps-dot"></span><span class="ps-label">Lighting calibration</span></div>
+        <div class="progress-step" id="step5"><span class="ps-dot"></span><span class="ps-label">Chlorophyll index</span></div>
+        <div class="progress-step" id="step6"><span class="ps-dot"></span><span class="ps-label">Final health score</span></div>
+      </div>
+    </div>
+
+    <div class="result-card hidden" id="resultContainer">
+      <div class="result-card__score" id="qualityResult"></div>
+
+      <div class="dual-index-row">
+        <div class="index-box index-box--fa">
+          <div class="index-box__icon">📐</div>
+          <div class="index-box__label">FA Index<br><span class="index-box__sub">accumulated stress</span></div>
+          <div class="index-box__value" id="faIndexDisplay">—</div>
+          <div class="index-box__bar-wrap"><div class="index-box__bar" id="faBar"></div></div>
+          <div class="index-box__interp" id="faInterp"></div>
+        </div>
+        <div class="index-box index-box--chl">
+          <div class="index-box__icon">🌿</div>
+          <div class="index-box__label">Chlorophyll Index<br><span class="index-box__sub">current status</span></div>
+          <div class="index-box__value" id="chlIndexDisplay">—</div>
+          <div class="index-box__bar-wrap"><div class="index-box__bar" id="chlBar"></div></div>
+          <div class="index-box__interp" id="chlInterp"></div>
+        </div>
+        <div class="index-box index-box--stress">
+          <div class="index-box__icon">💥</div>
+          <div class="index-box__label">Stress Index<br><span class="index-box__sub">overall score</span></div>
+          <div class="index-box__value" id="stressIndexDisplay">—</div>
+          <div class="index-box__bar-wrap"><div class="index-box__bar" id="stressBar"></div></div>
+          <div class="index-box__interp" id="stressInterp"></div>
+        </div>
+      </div>
+
+      <div class="diagnosis-block" id="diagnosisBlock"></div>
+
+      <h3 class="result-card__subtitle">Measured FA Parameters</h3>
+      <div class="table-wrap" id="faTableWrapper">
+        <table class="params-table" id="parametersTable">
+          <colgroup>
+            <col class="col-name">
+            <col class="col-val">
+            <col class="col-val">
+            <col class="col-asym">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Left</th>
+              <th>Right</th>
+              <th>Asymmetry</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="result-card__map-section">
+        <p>Share your results anonymously — your pin with both indices will appear on the map.</p>
+        <button class="btn btn--primary" id="addToMapBtn">📍 Add to Map</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MAP -->
+<section id="map" class="section">
+  <div class="container">
+    <div class="section-label">Map</div>
+    <h2 class="section-title">Environmental Quality Map</h2>
+    <p class="section-desc reveal">Anonymous results from users worldwide. Two independent layers: FA (chronic) and Chlorophyll (current). Data stored locally in your browser.</p>
+
+    <div class="map-stats reveal" id="mapStats">
+      <div class="map-stat">
+        <span class="map-stat__icon">📍</span>
+        <span class="map-stat__val" id="statPinsCount">0</span>
+        <span class="map-stat__label">pins</span>
+      </div>
+      <div class="map-stat">
+        <span class="map-stat__icon">🌍</span>
+        <span class="map-stat__val" id="statSpeciesCount">0</span>
+        <span class="map-stat__label">species</span>
+      </div>
+    </div>
+
+    <div class="layer-switcher reveal">
+      <span class="layer-switcher__label">Layers:</span>
+      <div class="layer-btns">
+        <button class="layer-btn active" id="layerBtnAll" data-layer="all">🗺 All</button>
+        <button class="layer-btn" id="layerBtnFa" data-layer="fa">📐 FA Layer</button>
+        <button class="layer-btn" id="layerBtnChl" data-layer="chl">🌿 Chlorophyll</button>
+      </div>
+    </div>
+    <div class="layer-hint" id="layerHint">Showing both indices (FA markers = teardrop, chlorophyll = hexagon)</div>
+
+    <div class="map-wrap reveal">
+      <div id="mapContainer"></div>
+      <div class="map-legend" id="mapLegend">
+        <div class="legend-title" id="legendTitle">FA Index / Stress</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#22c55e"></span>I — Normal</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#84cc16"></span>II — Minor</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#eab308"></span>III — Moderate</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#f97316"></span>IV — Significant</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span>V — Critical</div>
+        <div class="legend-divider" id="chlLegendDivider" style="display:none"></div>
+        <div class="legend-title legend-title--chl" id="chlLegendTitle" style="display:none">Chlorophyll</div>
+        <div class="legend-item" id="chlLeg1" style="display:none"><span class="legend-dot legend-dot--chl" style="background:#1a7a2e"></span>High</div>
+        <div class="legend-item" id="chlLeg2" style="display:none"><span class="legend-dot legend-dot--chl" style="background:#a3c94a"></span>Medium</div>
+        <div class="legend-item" id="chlLeg3" style="display:none"><span class="legend-dot legend-dot--chl" style="background:#f0c040"></span>Low</div>
+        <div class="legend-item" id="chlLeg4" style="display:none"><span class="legend-dot legend-dot--chl" style="background:#e05c2a"></span>Very Low</div>
+      </div>
+    </div>
+
+    <div class="map-actions">
+      <button class="map-action-btn" id="exportDataBtn">
+        <span class="map-action-btn__icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </span>
+        Export
+      </button>
+      <button class="map-action-btn" id="importDataBtn">
+        <span class="map-action-btn__icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </span>
+        Import
+      </button>
+      <button class="map-action-btn map-action-btn--clear" id="clearMapBtn">
+        <span class="map-action-btn__icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        </span>
+        Clear Local Data
+      </button>
+    </div>
+    <input type="file" id="importFileInput" accept=".json" style="display:none">
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section id="comparison" class="section section--alt">
+  <div class="container">
+    <div class="section-label">Comparison</div>
+    <h2 class="section-title">Species Resilience</h2>
+    <p class="section-desc reveal">Compare average stress indices across different plant species from all map data.</p>
+    <div class="comparison-wrap reveal">
+      <div id="comparisonChart" class="comparison-chart">
+        <div class="comparison-empty">No data yet — add analysis results to the map</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECOMMENDATIONS -->
+<section id="recommendations" class="section">
+  <div class="container">
+    <div class="section-label">Recommendations</div>
+    <h2 class="section-title">Greening Recommendations</h2>
+    <p class="section-desc reveal">Based on map data — which species are best suited for planting in your area.</p>
+
+    <div class="rec-grid" id="recGrid">
+      <div class="rec-card reveal">
+        <div class="rec-card__icon">🌳</div>
+        <h3>For Polluted Areas</h3>
+        <p>Recommended pollution-tolerant species: <strong>Balsam Poplar</strong> and <strong>White Willow</strong>. They have high tolerance to industrial emissions.</p>
+        <div class="rec-badge rec-badge--ok">Tolerant</div>
+      </div>
+      <div class="rec-card reveal delay-1">
+        <div class="rec-card__icon">🍃</div>
+        <h3>For Moderately Clean Areas</h3>
+        <p><strong>Silver Birch</strong> and <strong>Small-leaved Lime</strong> are good bioindicators. They are sensitive to pollution and help monitor environmental changes.</p>
+        <div class="rec-badge rec-badge--warn">Indicator</div>
+      </div>
+      <div class="rec-card reveal delay-2">
+        <div class="rec-card__icon">🌱</div>
+        <h3>For Clean Areas</h3>
+        <p><strong>Norway Maple</strong> creates dense canopy and maximizes dust absorption, but requires clean air for healthy growth.</p>
+        <div class="rec-badge rec-badge--good">Sensitive</div>
+      </div>
+    </div>
+
+    <div class="rec-dynamic hidden" id="recDynamic">
+      <h3 class="rec-dynamic__title">📍 Recommendations based on your data</h3>
+      <div class="rec-dynamic__content" id="recDynamicContent"></div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology" class="section section--alt">
+  <div class="container">
+    <div class="section-label">Methodology</div>
+    <h2 class="section-title">Scientific Foundation</h2>
+
+    <div class="method-grid">
+      <div class="method-text reveal">
+        <p>The fluctuating asymmetry method was developed by <strong>V.M. Zakharov</strong> and is based on measuring small random deviations from bilateral symmetry in organisms.</p>
+        <h3>FA Parameters</h3>
+        <ol class="method-list">
+          <li>Width of left and right leaf halves</li>
+          <li>Length of second-order vein</li>
+          <li>Distance between first and second-order vein bases</li>
+          <li>Distance between first and second-order vein ends</li>
+          <li>Angle between main vein and second-order vein</li>
+        </ol>
+
+        <h3>Chlorophyll Index (ChI)</h3>
+        <p>Calculated from photograph color channels with white background calibration:</p>
+        <div class="formula-box">
+          <div class="formula">ChI = (G − R) / (G + R)</div>
+          <div class="formula-sub">photo NDVI analog (range: −1 … +1)</div>
+        </div>
+
+        <p>Final stress index:</p>
+        <div class="formula-box">
+          <div class="formula">Stress = (FA<sub>norm</sub> + (1 − ChI<sub>norm</sub>)) / 2</div>
+          <div class="formula-sub">0 = perfect health, 1 = critical stress</div>
+        </div>
+      </div>
+
+      <div class="method-scale reveal delay-1">
+        <h3>FA Assessment Scale</h3>
+        <div class="scale-rows">
+          <div class="scale-row scale-row--1"><span class="scale-badge">I</span><span class="scale-desc">Normal</span><span class="scale-val">&lt; 0.040</span></div>
+          <div class="scale-row scale-row--2"><span class="scale-badge">II</span><span class="scale-desc">Minor deviations</span><span class="scale-val">0.040–0.044</span></div>
+          <div class="scale-row scale-row--3"><span class="scale-badge">III</span><span class="scale-desc">Moderate level</span><span class="scale-val">0.045–0.049</span></div>
+          <div class="scale-row scale-row--4"><span class="scale-badge">IV</span><span class="scale-desc">Significant deviations</span><span class="scale-val">0.050–0.054</span></div>
+          <div class="scale-row scale-row--5"><span class="scale-badge">V</span><span class="scale-desc">Critical condition</span><span class="scale-val">&gt; 0.054</span></div>
+        </div>
+
+        <h3 style="margin-top:28px">Chlorophyll Index</h3>
+        <div class="scale-rows">
+          <div class="scale-row scale-row--1"><span class="scale-badge chl-badge">🌿</span><span class="scale-desc">High</span><span class="scale-val">&gt; 0.15</span></div>
+          <div class="scale-row scale-row--2"><span class="scale-badge chl-badge">🍃</span><span class="scale-desc">Medium</span><span class="scale-val">0.05–0.15</span></div>
+          <div class="scale-row scale-row--3"><span class="scale-badge chl-badge">🍂</span><span class="scale-desc">Low</span><span class="scale-val">−0.05–0.05</span></div>
+          <div class="scale-row scale-row--4"><span class="scale-badge chl-badge">🟡</span><span class="scale-desc">Very Low (stress)</span><span class="scale-val">&lt; −0.05</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-leaf">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 4C10 4 4 10 4 16C4 22 10 28 16 28C16 28 14 24 16 20C18 24 16 28 16 28C22 28 28 22 28 16C28 10 22 4 16 4Z" fill="#e8c4c4" stroke="#d4a5a5" stroke-width="1.5"/>
+              <path d="M16 28V16" stroke="#d4a5a5" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M16 16C14 14 12 12 10 10M16 16C18 14 20 12 22 10" stroke="#d4a5a5" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M16 20C14 19 12 18 10 17M16 20C18 19 20 18 22 17" stroke="#d4a5a5" stroke-width="1" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="logo-text">EcoScan</span>
+        </div>
+        <p>Client-side environmental quality assessment using leaf fluctuating asymmetry and chlorophyll index analysis.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Technologies</h4>
+        <p>Vanilla JavaScript</p>
+        <p>Leaflet.js Maps</p>
+        <p>Canvas API</p>
+        <p>CSS Custom Properties</p>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="https://github.com/strangepelmen" target="_blank">GitHub Profile</a>
+        <a href="https://github.com/strangepelmen/EcoScan" target="_blank">Source Repository</a>
+        <a href="https://github.com/strangepelmen/EcoScan/issues" target="_blank">Report an Issue</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 EcoScan · MIT License · Built by <a href="https://github.com/strangepelmen" target="_blank">strangepelmen</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="public/js/data.js"></script>
+<script src="public/js/storage.js"></script>
+<script src="public/js/ui.js"></script>
+<script src="public/js/analysis.js"></script>
+<script src="public/js/map.js"></script>
+<script src="public/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+# EcoScan - Environmental Quality Assessment
+# https://github.com/strangepelmen/EcoScan
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+
+# Testing
+coverage/
+
+# Temporary files
+*.tmp
+*.temp

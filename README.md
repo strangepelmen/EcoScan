@@ -28,23 +28,6 @@
 - Species comparison charts with visual metrics
 - Fully responsive (mobile, tablet, desktop)
 
----
-
-## Quick Start
-
-### Option 1: Open Directly
-Open [`index.html`](index.html) in any modern browser — no build required.
-
-### Option 2: GitHub Pages
-Visit **[strangepelmen.github.io/EcoScan](https://strangepelmen.github.io/EcoScan)**
-
-### Option 3: Local Server
-```bash
-git clone https://github.com/strangepelmen/EcoScan.git
-cd EcoScan
-python -m http.server 8000
-# Visit http://localhost:8000
-```
 
 ---
 
